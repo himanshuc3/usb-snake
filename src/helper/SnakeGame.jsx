@@ -1,6 +1,7 @@
 import Sketch from 'react-p5'
 import React, {useRef} from 'react';
 
+import './index.css'
 
 // NOTE:
 // 1. Random walker that moves in 8 directions
@@ -59,6 +60,87 @@ class Walker {
   }
 }
 
+
+class SnakeBoard {
+  constructor(p5){
+    this.p5 = p5
+    this.snake = new Snake(this.p5)
+  }
+
+  render(){
+    this.p5.background(250)
+    this.snake.update()
+    this.snake.render()
+
+  }
+
+}
+
+
+class Food {
+  contructor(p5) {
+    this.p5 = p5
+    
+  }
+}
+
+
+class Snake {
+  constructor(p5) {
+    this.p5 = p5
+    this.body = [this.p5.createVector(this.p5.width / 2, this.p5.height / 2)];
+    this.xSpeed = 1;
+    this.ySpeed = 0;
+    this.growing = false
+    this.mode = "usb-c"
+  }
+
+  setSpeed(x, y) {
+    this.xSpeed = x;
+    this.ySpeed = y;
+  }
+  update() {
+    let head = this.body[this.body.length - 1].copy();
+    head.x += this.xSpeed*2
+    head.y += this.ySpeed*2
+    
+    this.body.push(head)
+    if(!this.growing){
+      // TODO: change this to DLL instead of array for O(1) shift
+      this.body.shift()
+    }
+    this.growing = false
+  }
+
+  eat(pos){
+    let head = this.body[this.body.length - 1]
+    if(head.x === pos.x && head.y == pos.y){
+      this.growing = true
+      // this.mode = "usb-b"
+      return true
+    }
+    return false
+  }
+
+  render() {
+    for(let i=0;i<this.body.length;i++){
+      let seg = this.body[i]
+      let isHead = i === this.body.length - 1
+      if(this.mode === "usb-c"){
+        this.drawUSBC(seg.x,seg.y,isHead)
+      }
+    }
+  }
+
+  drawUSBC(x, y, isHead) {
+    this.p5.fill(150)
+    this.p5.rect(x+4, y+ 6, 12, 8, 4)
+    this.p5.fill(80)
+    this.p5.rect(x+8,y+8, 4, 4)
+  }
+
+}
+
 function drawRandomGaussian(p5){
   let x = p5.randomGaussian(p5.width/2, 60)
 
@@ -84,24 +166,30 @@ let p5Instance = null
 function SnakeGame() {
   const walker = useRef(null);
   const perlinNoise = useRef(null);
+  const snakeBoard = useRef(null);
   const setup = (p5, canvasParentRef) => {
-    
+    // console.dir(canvasParentRef)
     if(p5Instance) p5Instance.remove();
-    p5.createCanvas(600, 400).parent(canvasParentRef)
-    walker.current = new Walker(p5);
+    p5.createCanvas(canvasParentRef.clientWidth, canvasParentRef.clientHeight).parent(canvasParentRef)
+    // walker.current = new Walker(p5);
+    snakeBoard.current = new SnakeBoard(p5);
     p5Instance = p5;
-    perlinNoise.current = drawPerlinNoise(p5);
+    // perlinNoise.current = drawPerlinNoise(p5);
   };
 
   const draw = (p5) => {
     p5.frameRate(30);
-    // p5.background(250);
+    p5.background(250);
     // p5.ellipse(50,100,100)
     p5.stroke(0)
     // walker.current.step();
     // walker.current.render();
     // drawRandomGaussian(p5)
-    perlinNoise.current.draw()
+    // perlinNoise.current.draw()
+    snake.current.update()
+    snake.current.render()
+
+
   };
 
   return (

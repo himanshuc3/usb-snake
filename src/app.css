@@ -1,0 +1,11 @@
+.snake-container {
+    border: 2px solid red;
+    width: 100%;
+    height: 100%;
+}
+
+.App {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
