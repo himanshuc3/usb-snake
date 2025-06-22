@@ -1,11 +1,13 @@
 import SnakeGame from './helper/SnakeGame';
+import GameBoard from './components/GameBoard';
 import './app.css'
 
 function App() {
   return (
     <div className="App">
       <div className="snake-container">
-        <SnakeGame />
+        <GameBoard />
+        {/* <SnakeGame /> */}
       </div>
     </div>
   );

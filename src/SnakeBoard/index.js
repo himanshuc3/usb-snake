@@ -104,7 +104,7 @@ class Snake {
 
   update() {
     let head = this.getHead().copy();
-    head.add(this.speed);
+    // head.add(this.speed);
 
     this.body.push(head);
     this.body.shift();
@@ -158,11 +158,36 @@ class Snake {
 
   render() {
     this.p5.fill(0);
-    this.p5.stroke(96, 255, 64);
-    // this.p5.beginShape();
-    for (let segment of this.body) {
-      this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
-    }
+    this.p5.strokeWeight(0)
+    this.p5.stroke(255, 255, 255);
+    this.p5.beginShape();
+    this.p5.strokeWeight(this.grid.cellSize/2);
+    this.p5.strokeJoin(this.p5.ROUND);
+    this.body.forEach((segment, i) => {
+      if(i ===this.body.length - 1 ){
+        this.p5.fill(0)
+        this.p5.strokeWeight(1)
+
+        this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize, 5, 0, 0 ,5);
+        this.p5.strokeWeight(this.grid.cellSize/2)
+        // this.p5.vertex(segment.x*this.grid.cellSize + , segment.y*this.grid.cellSize);
+      }else{
+
+        this.p5.vertex(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize);
+      }
+      // if(i === 0) {
+        
+      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
+      // } else if(i === this.body.length - 1) {
+      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
+      // }else{
+      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
+
+      // }
+
+    })
+    this.p5.endShape()
+    
     // this.p5.endShape();
     // this.myUSBCPlug(100, 100);
     // for (let i = 0; i < this.body.length; i++) {
