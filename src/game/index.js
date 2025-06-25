@@ -3,11 +3,12 @@ import { DIRECTION } from "../helper/constants";
 class SnakeBoard {
   constructor(p5) {
     this.p5 = p5;
-
+    
+    const defaultCellSize = 10
     this.grid = {
-      rows: 50,
-      cols: 50,
-      cellSize: 20,
+      rows: this.p5.height/defaultCellSize,
+      cols: this.p5.width / defaultCellSize,
+      cellSize: 10,
     };
 
     this.snake = new Snake(this.p5, this.grid);
@@ -104,7 +105,7 @@ class Snake {
 
   update() {
     let head = this.getHead().copy();
-    // head.add(this.speed);
+    head.add(this.speed);
 
     this.body.push(head);
     this.body.shift();

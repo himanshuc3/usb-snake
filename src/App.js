@@ -1,4 +1,3 @@
-import SnakeGame from './helper/SnakeGame';
 import GameBoard from './components/GameBoard';
 import './app.css'
 

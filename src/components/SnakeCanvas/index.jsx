@@ -1,9 +1,8 @@
 import Sketch from 'react-p5'
 import React, {useRef, useEffect} from 'react';
-import SnakeBoard from '../SnakeBoard';
-import { DIRECTION } from './constants';
+import GameEnvInstance from '../../game';
+import { DIRECTION } from '../../helper/constants';
 
-import './index.css'
 
 // NOTE:
 // 1. Random walker that moves in 8 directions
@@ -95,30 +94,12 @@ function drawPerlinNoise(p5) {
 } 
 
 
+
 let p5Instance = null
-function SnakeGame() {
-  const walker = useRef(null);
-  const perlinNoise = useRef(null);
+function SnakeGame({keyPressed}) {
   const snakeBoard = useRef(null);
-  const setup = (p5, canvasParentRef) => {
-    if(p5Instance) p5Instance.remove();
-    p5.createCanvas(canvasParentRef.clientWidth, canvasParentRef.clientHeight).parent(canvasParentRef)
-    snakeBoard.current = new SnakeBoard(p5);
-    p5Instance = p5;
-  };
-
-  const draw = (p5) => {
-    p5.frameRate(10);
-    p5.background(250);
-    snakeBoard.current.update()
-    snakeBoard.current.render()
-
-
-  };
-
   useEffect(() => {
-    window.addEventListener('keydown', (event) => {
-      switch (event.key) {
+      switch (keyPressed) {
         case 'ArrowUp':
           snakeBoard.current.snake.setDirection(DIRECTION.UP);
           break;
@@ -132,8 +113,23 @@ function SnakeGame() {
           snakeBoard.current.snake.setDirection(DIRECTION.RIGHT);
           break;
       }
-    });
-  }, [])
+  }, [keyPressed])
+  const setup = (p5, canvasParentRef) => {
+    if(p5Instance) p5Instance.remove();
+    p5.createCanvas(canvasParentRef.clientWidth, canvasParentRef.clientHeight).parent(canvasParentRef)
+    snakeBoard.current = new GameEnvInstance(p5);
+    p5Instance = p5;
+  };
+  
+  const draw = (p5) => {
+    p5.frameRate(10);
+    p5.background(250);
+    snakeBoard.current.update()
+    snakeBoard.current.render()
+    
+
+  };
+
 
   return (
     <> 

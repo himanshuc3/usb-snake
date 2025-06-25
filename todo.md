@@ -15,4 +15,15 @@
   - (tentative) Changing cable, changes layout of the canvas, possibily adding obstacles
   - (tentative) Adding AI players
 
--
+- Controls
+
+  - Button clicks
+  - keyboard input controls and simulates clicks. Also shows the character pressed
+
+- Microinteractions
+
+  - Points being added gets an animation +5 getting added
+
+- Socials
+  - Github badge at top right corner
+  - Blog integration

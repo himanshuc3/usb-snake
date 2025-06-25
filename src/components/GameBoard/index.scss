@@ -4,18 +4,196 @@
 }
 
 .game-board-container {
-    height: 500px;
-    width: 700px;
-    border: 4px solid rgb(220,220,220,1);
-    border-radius: 8px;
-    background-color: #280000;
+    height: 400px;
+    width: 400px;
+    // border: 4px solid rgb(220,220,220,1);
+    border-radius: 10px 10px 0px 0px;
+    // background-color: #280000;
+    // padding: 10px;
+    // border-bottom-width: 024pxpx;
+    // border-bottom-left-radius: 0;
+    // border-bottom-right-radius: 0;
+
+    
+    & > div {
+        background: rgba(0,0,0,0.7);
+        width:100%;
+        height:100%;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.7),
+    inset 0 0 10px rgba(255,255,255,0.5),
+    inset 0 2px 2px rgba(255,255,255,0.25);
+    border-radius: 10px 10px 0px 0px;
+    }
 
 }
 
 .header-container {
     height: 30px;
-    width: 700px;
+    width: 400px;
     padding: 0 20px;
     font-size: 20px;
     font-weight: 700;
+}
+
+.react-p5 {
+  width: 100%;
+  height: 100%;
+}
+
+.keypad {
+    position:relative;
+    left: 200px;
+    top: 20px;
+}
+
+.footer{ 
+  // margin-top: 5px;
+    height: 200px;
+    width: 400px;
+    background-color: rgba(150,150,150,0.2);
+    // border: 4px solid rgb(220,220,220,1);
+    // border-top-width: 0px;
+    border-radius: 0px 0px 10px 10px;
+}
+
+
+.up,
+.down,
+.left,
+.right {
+  position: absolute;
+  z-index: 1001;
+  margin-left: 50%;
+  font-size: 40px;
+  width: 50px;
+  height: 50px;
+  background: #FFA03A;
+  border: 1px solid #915515;
+  box-shadow: 0 3px 0 #52300E,
+		    inset 0 0 10px rgba(255,255,255,0.3);
+  appearance: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.up:active,
+.down:active,
+.left:active,
+.right:active {
+  margin-top: 3px;
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.3);
+}
+
+.up:before,
+.down:before,
+.left:before,
+.right:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #E4923D;
+  box-shadow: 0 2px 2px rgba(255,255,255,0.25),
+    inset 0 1px 0 rgba(0,0,0,0.5);
+}
+
+.up:after,
+.down:after,
+.left:after,
+.right:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -5px;
+  left: -6px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px rgba(255,255,255,0.25),
+		    inset 0 2px 2px rgba(0,0,0,0.5);
+}
+
+.up:active:after,
+.down:active:after,
+.left:active:after,
+.right:active:after {
+  top: -8px;
+}
+
+.up {
+	top: 0;
+	left: -25px;	
+}
+
+.up:before {
+	top: 5px;
+	left: 17px;
+}
+
+.down {
+	top: 100px;
+	left: -25px;
+}
+
+.down:before {
+	bottom: 5px;
+	left: 17px;
+}
+
+.left {
+	top: 50px;
+	left: -75px;
+}
+
+.left:before {
+	top: 17px;
+	left: 5px;
+}
+
+.right {
+	top: 50px;
+	left: 25px;
+}
+
+.right:before {
+	top: 17px;
+	right: 5px;
+}
+
+
+
+
+
+.up:active ~ .screen .char,
+.down:active ~ .screen .char,
+.left:active ~ .screen .char,
+.right:active ~ .screen .char {
+  transition: margin-top 2s linear, 
+	            margin-left 2s linear;
+}
+
+.up:active ~ .screen .char {
+  margin-top: -84px;
+	background-position: 0 -144px;
+	animation: walk-up 0.65s infinite;
+}
+
+.down:active ~ .screen .char {
+	margin-top: 90px;
+	background-position: 0 0;
+	animation: walk-down 0.65s infinite;
+}
+
+.left:active ~ .screen .char {	
+	margin-left: -88px;
+	background-position: 0 -48px;
+	animation: walk-left 0.65s infinite;
+}
+
+.right:active ~ .screen .char {
+	margin-left: 88px;
+	background-position: 0 -96px;
+	animation: walk-right 0.65s infinite;
 }
