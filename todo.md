@@ -25,5 +25,8 @@
   - Points being added gets an animation +5 getting added
 
 - Socials
+
   - Github badge at top right corner
   - Blog integration
+
+- What is missing: Start/pause button, displaying keyboard press keys (&controls), socials (github badge, blog logo), current usb information, music turn on/off

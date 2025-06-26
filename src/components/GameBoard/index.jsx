@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Flex } from "antd";
 import { useState } from "react";
 import { GithubOutlined } from "@ant-design/icons";
+import logo from '../../images/logo.png'
 
 import SnakeCanvas from "../SnakeCanvas";
 import useKeyPress from "../../hooks/useKeyPress";
@@ -11,8 +12,8 @@ export default function GameBoard() {
   const [display, setDisplay] = useState("READY");
   const [lastPressed, setLastPressed] = useState("");
   const { keyPressed } = useKeyPress();
-  const evtDown = new MouseEvent('mousedown', {bubbles:true})
-  const evtUp = new MouseEvent('mouseup', {bubbles: true})
+  const evtDown = new MouseEvent("mousedown", { bubbles: true });
+  const evtUp = new MouseEvent("mouseup", { bubbles: true });
 
   const handleButtonPress = (button) => {
     setLastPressed(button);
@@ -70,17 +71,32 @@ export default function GameBoard() {
 
   return (
     <Flex vertical justify="center" align="center" className="root-container">
-      <Flex align="center" justify="space-between" className="header-container w-full relative">
+      <Flex className="logo">
+        <a href="https://himanshusb.in">
+        <img src={logo} width="50px"/>
+        </a>
+      </Flex>
+      <Flex className="github-fork">
+
+      <a href="https://github.com/himanshuc3/usb-snake" target="_blank">
+        <img
+          loading="lazy"
+          decoding="async"
+          width="149"
+          height="149"
+          src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png"
+          class="attachment-full size-full"
+          alt="Fork me on GitHub"
+          />
+      </a>
+          </Flex>
+      <Flex
+        align="center"
+        justify="space-between"
+        className="header-container w-full relative"
+      >
         <Flex>USB</Flex>
         <Flex>133 points</Flex>
-        <a 
-          href="https://github.com/himanshu-chhabra" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="absolute right-4 top-1/2 -translate-y-1/2"
-        >
-          <GithubOutlined className="text-2xl text-yellow-400 hover:text-yellow-300 transition-colors" />
-        </a>
       </Flex>
       <Flex className="game-board-container">
         <div>
