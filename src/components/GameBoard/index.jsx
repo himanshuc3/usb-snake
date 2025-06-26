@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Flex } from "antd";
 import { useState } from "react";
+import { GithubOutlined } from "@ant-design/icons";
 
 import SnakeCanvas from "../SnakeCanvas";
 import useKeyPress from "../../hooks/useKeyPress";
@@ -69,9 +70,17 @@ export default function GameBoard() {
 
   return (
     <Flex vertical justify="center" align="center" className="root-container">
-      <Flex align="center" justify="space-between" className="header-container">
+      <Flex align="center" justify="space-between" className="header-container w-full relative">
         <Flex>USB</Flex>
         <Flex>133 points</Flex>
+        <a 
+          href="https://github.com/himanshu-chhabra" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="absolute right-4 top-1/2 -translate-y-1/2"
+        >
+          <GithubOutlined className="text-2xl text-yellow-400 hover:text-yellow-300 transition-colors" />
+        </a>
       </Flex>
       <Flex className="game-board-container">
         <div>
