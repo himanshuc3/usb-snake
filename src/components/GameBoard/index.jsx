@@ -7,6 +7,7 @@ import logo from "../../images/logo.png";
 import SnakeCanvas from "../SnakeCanvas";
 import useKeyPress from "../../hooks/useKeyPress";
 import "./index.scss";
+import Button from "../button";
 const { Text } = Typography;
 
 export default function GameBoard() {
@@ -120,6 +121,7 @@ export default function GameBoard() {
           <button className="left"></button>
           <button className="right"></button>
         </Flex>
+        <Button text={"Start Game"} className="start-button"/>
       </Flex>
     </Flex>
   );
