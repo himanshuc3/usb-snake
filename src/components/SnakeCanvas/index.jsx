@@ -153,7 +153,20 @@ function SnakeGame({ keyPressed, direction }) {
   };
 
   const draw = (p5) => {
-    p5.frameRate(10);
+    if(pointsContext.points > 200){
+      p5.frameRate(30)
+    }else if(pointsContext.points > 150){
+      p5.frameRate(25)
+    }else if(pointsContext.points > 100){
+      p5.frameRate(22)
+    }else if(pointsContext.points > 60){
+      p5.frameRate(18)
+    }else if(pointsContext.points > 30){
+      p5.frameRate(12)
+    }else{
+      p5.frameRate(10)
+    }
+    
     snakeBoard.current.update();
     snakeBoard.current.render();
   };

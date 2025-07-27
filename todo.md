@@ -34,8 +34,9 @@ v0.2
 
 - We've pivoted. No more a usb snake game, cause frankly it might've taken more time.
 
-- Working canvas
+Features:
 
+- Working canvas:
   - Add food sprite/image
   - Sake Grows on eating food and increases speed
   - Point system
@@ -44,10 +45,22 @@ v0.2
     - On reaching plug, it changes the cable version
   - (tentative) Changing cable, changes layout of the canvas, possibily adding obstacles
   - (tentative) Adding AI players
-
-- Microinteractions
-
+- Microinteractions:
   - Points being added gets an animation +5 getting added
-
 - Socials
   - Blog integration
+- HouseKeeping:
+  - Refactoring
+  - Performance
+- Snake Features/rewards on food collection:
+  - Multi Emoji reaction
+  - Background flashing
+  - Breaking news
+  - Opposite controls
+  - Obstacles
+  - Speed increase
+
+## v0.3
+
+- Logo
+  - Animated using anime.js

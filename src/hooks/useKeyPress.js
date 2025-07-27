@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 function useKeyPress() {
   const [keyPressed, setKeyPressed] = useState(null);
   const [keysPressed, setKeysPressed] = useState(new Set());
+  const [lastFiveKeys, setLastFiveKeys] = useState([]);
 
   const handleKeyDown = useCallback((event) => {
     // Prevent default behavior for arrow keys to avoid page scrolling
@@ -12,6 +13,12 @@ function useKeyPress() {
     
     setKeyPressed(event.key);
     setKeysPressed(prev => new Set([...prev, event.key]));
+    
+    // Track the last 5 key presses
+    setLastFiveKeys(prev => {
+      const newHistory = [event.key, ...prev];
+      return newHistory.slice(0, 5); // Keep only the last 5 keys
+    });
     
     // Clear the key after a brief moment to allow for continuous movement
     setTimeout(() => setKeyPressed(null), 100);
@@ -38,6 +45,7 @@ function useKeyPress() {
   return { 
     keyPressed, 
     keysPressed,
+    lastFiveKeys,
     isKeyPressed: (key) => keysPressed.has(key)
   };
 }

@@ -6,9 +6,9 @@ function App() {
   return (
     <PointsProvider>
       <div className="App">
+        <h1 className="logo-title">Octosnake</h1>
         <div className="snake-container">
           <GameBoard />
-          {/* <SnakeGame /> */}
         </div>
       </div>
     </PointsProvider>
