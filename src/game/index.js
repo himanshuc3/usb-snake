@@ -3,12 +3,12 @@ import { DIRECTION } from "../helper/constants";
 class SnakeBoard {
   constructor(p5) {
     this.p5 = p5;
-    
-    const defaultCellSize = 10
+
+    const defaultCellSize = 15;
     this.grid = {
-      rows: this.p5.height/defaultCellSize,
+      rows: this.p5.height / defaultCellSize,
       cols: this.p5.width / defaultCellSize,
-      cellSize: 10,
+      cellSize: defaultCellSize,
     };
 
     this.snake = new Snake(this.p5, this.grid);
@@ -19,8 +19,21 @@ class SnakeBoard {
   }
 
   render() {
-    this.p5.background(250);
-    this.p5.rect(0,0,this.grid.cols * this.grid.cellSize, this.grid.rows * this.grid.cellSize);
+    this.p5.stroke(14,17,23);
+    this.p5.strokeWeight(3);
+
+    for (let i = 0; i < this.grid.cols; i++) {
+      for (let j = 0; j < this.grid.rows; j++) {
+        this.p5.fill(21, 27, 35);
+        this.p5.rect(
+          i * this.grid.cellSize,
+          j * this.grid.cellSize,
+          this.grid.cellSize,
+          this.grid.cellSize,
+          3
+        );
+      }
+    }
 
     // this.p5.scale(
     //   this.p5.width / this.grid.cols,
@@ -35,29 +48,44 @@ class Snake {
     this.p5 = p5;
     this.grid = grid;
     this.setup();
-    // this.growing = false;
-    this.mode = "usb-c";
   }
 
-  setDirection(direction){// Collision with itself
-    switch(direction){
+  setDirection(direction) {
+    // Collision with itself
+    switch (direction) {
       case DIRECTION.UP:
-        if(this.direction === DIRECTION.DOWN || this.direction === DIRECTION.UP) return; // Prevent reversing
+        if (
+          this.direction === DIRECTION.DOWN ||
+          this.direction === DIRECTION.UP
+        )
+          return; // Prevent reversing
         this.speed.set(0, -1);
         this.direction = DIRECTION.UP;
         break;
       case DIRECTION.DOWN:
-        if(this.direction === DIRECTION.UP || this.direction === DIRECTION.DOWN) return; // Prevent reversing
+        if (
+          this.direction === DIRECTION.UP ||
+          this.direction === DIRECTION.DOWN
+        )
+          return; // Prevent reversing
         this.speed.set(0, 1);
         this.direction = DIRECTION.DOWN;
         break;
       case DIRECTION.LEFT:
-        if(this.direction === DIRECTION.RIGHT || this.direction === DIRECTION.LEFT) return; // Prevent reversing
+        if (
+          this.direction === DIRECTION.RIGHT ||
+          this.direction === DIRECTION.LEFT
+        )
+          return; // Prevent reversing
         this.speed.set(-1, 0);
         this.direction = DIRECTION.LEFT;
         break;
       case DIRECTION.RIGHT:
-        if(this.direction === DIRECTION.LEFT || this.direction === DIRECTION.RIGHT) return; // Prevent reversing
+        if (
+          this.direction === DIRECTION.LEFT ||
+          this.direction === DIRECTION.RIGHT
+        )
+          return; // Prevent reversing
         this.speed.set(1, 0);
         this.direction = DIRECTION.RIGHT;
         break;
@@ -65,9 +93,9 @@ class Snake {
   }
 
   setup() {
-    this.body = Array.apply(null, Array(10)).map((el, id) => 
+    this.body = Array.apply(null, Array(10)).map((el, id) =>
       this.p5.createVector(id, this.grid.rows / 2)
-)
+    );
 
     this.speed = this.p5.createVector(1, 0);
     this.direction = DIRECTION.RIGHT;
@@ -77,19 +105,19 @@ class Snake {
     return this.isCollidingWithWall() || this.isCollidingWithSelf();
   }
 
-  isCollidingWithSelf(){
-    let head = this.getHead()
+  isCollidingWithSelf() {
+    let head = this.getHead();
 
     let segmentsAfterHead = this.body.slice(0, this.body.length - 1);
     for (let segment of segmentsAfterHead) {
       if (segment.equals(head)) {
-        return true; 
+        return true;
       }
     }
-    return false
+    return false;
   }
 
-  getHead(){
+  getHead() {
     return this.body[this.body.length - 1];
   }
 
@@ -109,7 +137,7 @@ class Snake {
 
     this.body.push(head);
     this.body.shift();
-    if(this.isColliding()) {
+    if (this.isColliding()) {
       this.setup(); // Reset the snake if it collides with wall or itself
       return;
     }
@@ -118,33 +146,6 @@ class Snake {
     //   this.body.shift();
     // }
     // this.growing = false;
-  }
-
-  drawUSBCPlug() {
-    // Outer metal shell
-    this.p5.fill(80);
-    this.p5.stroke(30);
-    this.p5.strokeWeight(2);
-    this.p5.rect(20, 15, 60, 30, 10);
-
-    // Inner black insulation
-    this.p5.fill(20);
-    this.p5.noStroke();
-    this.p5.rect(30, 23, 40, 14, 3);
-
-    // Pins
-    this.p5.fill(250, 204, 0); // gold pins
-    for (let i = 0; i < 4; i++) {
-      this.p5.rect(32 + i * 10, 25, 4, 10);
-    }
-  }
-
-  myUSBCPlug(x, y) {
-    this.p5.fill(255);
-    this.p5.rect(100, 100, 30, 20, 0, 0, 5, 5);
-    this.p5.rect(90, 60, 50, 40, 0, 0, 5, 5);
-    this.p5.rect(90, 50, 50, 20, 10, 10, 10, 10);
-    this.p5.rect(92, 35, 45, 30, 10, 10, 10, 10);
   }
 
   eat(pos) {
@@ -159,53 +160,19 @@ class Snake {
 
   render() {
     this.p5.fill(0);
-    this.p5.strokeWeight(0)
-    this.p5.stroke(255, 255, 255);
-    this.p5.beginShape();
-    this.p5.strokeWeight(this.grid.cellSize/2);
-    this.p5.strokeJoin(this.p5.ROUND);
-    this.body.forEach((segment, i) => {
-      if(i ===this.body.length - 1 ){
-        this.p5.fill(0)
-        this.p5.strokeWeight(1)
-
-        this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize, 5, 0, 0 ,5);
-        this.p5.strokeWeight(this.grid.cellSize/2)
-        // this.p5.vertex(segment.x*this.grid.cellSize + , segment.y*this.grid.cellSize);
-      }else{
-
-        this.p5.vertex(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize);
-      }
-      // if(i === 0) {
-        
-      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
-      // } else if(i === this.body.length - 1) {
-      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
-      // }else{
-      //   this.p5.rect(segment.x*this.grid.cellSize, segment.y*this.grid.cellSize, this.grid.cellSize, this.grid.cellSize);
-
-      // }
-
-    })
-    this.p5.endShape()
+    this.p5.stroke(30, 41, 59);
+    this.p5.strokeWeight(3);
     
-    // this.p5.endShape();
-    // this.myUSBCPlug(100, 100);
-    // for (let i = 0; i < this.body.length; i++) {
-    //   let seg = this.body[i];
-    //   let isHead = i === this.body.length - 1;
-    //   if (this.mode === "usb-c") {
-    //     this.drawUSBCPlug();
-    //     // this.drawUSBC(seg.x,seg.y,isHead)
-    //   }
-    // }
-  }
-
-  drawUSBC(x, y, isHead) {
-    this.p5.fill(150);
-    this.p5.rect(x + 4, y + 6, 12, 8, 4);
-    this.p5.fill(80);
-    this.p5.rect(x + 8, y + 8, 4, 4);
+    this.body.forEach((segment, i) => {
+      this.p5.fill(255, 204, 0)
+        this.p5.rect(
+          segment.x * this.grid.cellSize ,
+          segment.y * this.grid.cellSize - 5,
+          this.grid.cellSize,
+          this.grid.cellSize,
+          3
+        );
+    });
   }
 }
 

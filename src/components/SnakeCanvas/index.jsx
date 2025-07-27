@@ -3,8 +3,6 @@ import React, { useRef, useEffect } from "react";
 import GameEnvInstance from "../../game";
 import { DIRECTION } from "../../helper/constants";
 
-let textureImg;
-
 // NOTE:
 // 1. Random walker that moves in 8 directions
 class Walker {
@@ -86,27 +84,59 @@ function drawPerlinNoise(p5) {
 }
 
 let p5Instance = null;
-function SnakeGame({ keyPressed }) {
+function SnakeGame({ keyPressed, direction }) {
   const snakeBoard = useRef(null);
-  useEffect(() => {
-    switch (keyPressed) {
+  
+  // Direction mapping function
+  const mapToGameDirection = (input) => {
+    switch (input) {
       case "ArrowUp":
-        snakeBoard.current.snake.setDirection(DIRECTION.UP);
-        break;
+      case "w":
+      case "W":
+      case "up":
+        return DIRECTION.UP;
       case "ArrowDown":
-        snakeBoard.current.snake.setDirection(DIRECTION.DOWN);
-        break;
+      case "s":
+      case "S":
+      case "down":
+        return DIRECTION.DOWN;
       case "ArrowLeft":
-        snakeBoard.current.snake.setDirection(DIRECTION.LEFT);
-        break;
+      case "a":
+      case "A":
+      case "left":
+        return DIRECTION.LEFT;
       case "ArrowRight":
-        snakeBoard.current.snake.setDirection(DIRECTION.RIGHT);
-        break;
+      case "d":
+      case "D":
+      case "right":
+        return DIRECTION.RIGHT;
+      default:
+        return null;
+    }
+  };
+
+  // Handle direction changes from keyPressed prop (backward compatibility)
+  useEffect(() => {
+    if (keyPressed && snakeBoard.current) {
+      const gameDirection = mapToGameDirection(keyPressed);
+      if (gameDirection) {
+        snakeBoard.current.snake.setDirection(gameDirection);
+      }
     }
   }, [keyPressed]);
 
+  // Handle direction changes from direction prop (new way)
+  useEffect(() => {
+    if (direction && snakeBoard.current) {
+      const gameDirection = mapToGameDirection(direction);
+      if (gameDirection) {
+        snakeBoard.current.snake.setDirection(gameDirection);
+      }
+    }
+  }, [direction]);
+
   const preload = (p5) => {
-    textureImg = p5.loadImage("../../images/texture1.jpg"); // replace with your texture image path
+    // textureImg = p5.loadImage("../../images/texture1.jpg"); // replace with your texture image path
   };
 
   const setup = (p5, canvasParentRef) => {
@@ -118,20 +148,15 @@ function SnakeGame({ keyPressed }) {
     snakeBoard.current = new GameEnvInstance(p5);
     p5Instance = p5;
     p5.background(50);
-    p5.image(textureImg, 0, 0, p5.width, p5.height);
   };
 
   const draw = (p5) => {
     p5.frameRate(10);
-    // snakeBoard.current.update()
-    // snakeBoard.current.render()
+    snakeBoard.current.update();
+    snakeBoard.current.render();
   };
 
-  return (
-    <>
-      <Sketch setup={setup} draw={draw} preload={preload} />
-    </>
-  );
+  return <Sketch setup={setup} draw={draw} preload={preload} />;
 }
 
 export default SnakeGame;

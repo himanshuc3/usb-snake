@@ -10,16 +10,19 @@ import "./index.scss";
 import Button from "../button";
 const { Text } = Typography;
 
+const githubColors = ["#033a16", "#196c2e", "#2ea043", "#56d364"];
+
 export default function GameBoard() {
   const [display, setDisplay] = useState("READY");
   const [lastPressed, setLastPressed] = useState("");
-  const { keyPressed } = useKeyPress();
-  const evtDown = new MouseEvent("mousedown", { bubbles: true });
-  const evtUp = new MouseEvent("mouseup", { bubbles: true });
+  const [direction, setDirection] = useState(null);
+  const { keyPressed, isKeyPressed } = useKeyPress();
 
-  const handleButtonPress = (button) => {
-    setLastPressed(button);
-    setDisplay(`${button} PRESSED`);
+  // Handle direction changes
+  const handleDirectionChange = (newDirection) => {
+    setDirection(newDirection);
+    setLastPressed(newDirection);
+    setDisplay(`${newDirection.toUpperCase()} PRESSED`);
 
     // Reset display after 1 second
     setTimeout(() => {
@@ -29,46 +32,55 @@ export default function GameBoard() {
   };
 
   useEffect(() => {
-    let elem = null;
-    switch (keyPressed) {
-      case "ArrowUp":
-        elem = document.getElementsByClassName("up")[0];
-        break;
-      case "ArrowDown":
-        elem = document.getElementsByClassName("down")[0];
-        break;
-      case "ArrowLeft":
-        elem = document.getElementsByClassName("left")[0];
-        break;
-      case "ArrowRight":
-        elem = document.getElementsByClassName("right")[0];
-        break;
-    }
-
-    if (elem) {
-      elem.dispatchEvent(evtDown);
-      setTimeout(() => {
-        elem.dispatchEvent(evtUp);
-        elem.click(); // call actual click after "visual" press
-      }, 100);
+    if (keyPressed) {
+      switch (keyPressed) {
+        case "ArrowUp":
+        case "w":
+        case "W":
+          handleDirectionChange("up");
+          break;
+        case "ArrowDown":
+        case "s":
+        case "S":
+          handleDirectionChange("down");
+          break;
+        case "ArrowLeft":
+        case "a":
+        case "A":
+          handleDirectionChange("left");
+          break;
+        case "ArrowRight":
+        case "d":
+        case "D":
+          handleDirectionChange("right");
+          break;
+      }
     }
   }, [keyPressed]);
 
-  const ButtonComponent = ({ children, onClick, className = "", label }) => (
-    <button
-      onClick={onClick}
-      className={`
-        bg-slate-800 hover:bg-slate-700 active:bg-slate-900 
-        text-yellow-400 font-bold rounded-lg shadow-lg
-        transition-all duration-150 ease-in-out
-        active:scale-95 active:shadow-inner
-        border-2 border-slate-900
-        ${className}
-      `}
-      aria-label={label}
-    >
-      {children}
-    </button>
+  // Keyboard Controls Component
+  const KeyboardControls = () => (
+    <Flex className="keyboard-controls" vertical align="center" gap={8}>
+      <Text style={{ color: '#9198a1', fontSize: '12px' }}>Keyboard Controls</Text>
+      <Flex vertical gap={4}>
+        <Flex justify="center">
+          <div className={`key-button ${isKeyPressed('ArrowUp') || isKeyPressed('W') || isKeyPressed('w') ? 'active' : ''}`}>
+            ↑ / W
+          </div>
+        </Flex>
+        <Flex gap={4} justify="center">
+          <div className={`key-button ${isKeyPressed('ArrowLeft') || isKeyPressed('A') || isKeyPressed('a') ? 'active' : ''}`}>
+            ← / A
+          </div>
+          <div className={`key-button ${isKeyPressed('ArrowDown') || isKeyPressed('S') || isKeyPressed('s') ? 'active' : ''}`}>
+            ↓ / S
+          </div>
+          <div className={`key-button ${isKeyPressed('ArrowRight') || isKeyPressed('D') || isKeyPressed('d') ? 'active' : ''}`}>
+            → / D
+          </div>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 
   return (
@@ -76,19 +88,6 @@ export default function GameBoard() {
       <Flex className="logo">
         <a href="https://himanshusb.in">
           <img src={logo} width="50px" />
-        </a>
-      </Flex>
-      <Flex className="github-fork">
-        <a href="https://github.com/himanshuc3/usb-snake" target="_blank">
-          <img
-            loading="lazy"
-            decoding="async"
-            width="149"
-            height="149"
-            src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png"
-            class="attachment-full size-full"
-            alt="Fork me on GitHub"
-          />
         </a>
       </Flex>
       <Flex
@@ -111,17 +110,37 @@ export default function GameBoard() {
       </Flex>
       <Flex className="game-board-container">
         <div>
-          <SnakeCanvas keyPressed={keyPressed} />
+          <SnakeCanvas keyPressed={keyPressed} direction={direction} />
         </div>
       </Flex>
       <Flex className="footer">
-        <Flex className="keypad">
-          <button className="up"></button>
-          <button className="down"></button>
-          <button className="left"></button>
-          <button className="right"></button>
+        <Flex justify="space-between" align="center" className="footer-help">
+          <Flex>
+            <Text style={{ color: '#9198a1'}}>Want to contribute.</Text>
+          </Flex>
+          <Flex
+            className="contribution-container"
+            justify="space-between"
+            gap={6}
+          >
+            <Text style={{color:"#9198a1"}}>Less</Text>
+            <Flex gap={4}>
+            {githubColors.map((color, index) => (
+              <div
+                key={index}
+                className="contribution-box"
+                style={{ backgroundColor: color }}
+                ></div>
+            ))}
+                </Flex>
+            <Text style={{color:"#9198a1"}}>More</Text>
+          </Flex>
         </Flex>
-        <Button text={"Start Game"} className="start-button"/>
+        
+        {/* Add keyboard controls display */}
+        <KeyboardControls />
+        
+        
       </Flex>
     </Flex>
   );
