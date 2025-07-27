@@ -2,6 +2,7 @@ import Sketch from "react-p5";
 import React, { useRef, useEffect } from "react";
 import GameEnvInstance from "../../game";
 import { DIRECTION } from "../../helper/constants";
+import { usePoints } from '../../state/points';
 
 // NOTE:
 // 1. Random walker that moves in 8 directions
@@ -86,6 +87,7 @@ function drawPerlinNoise(p5) {
 let p5Instance = null;
 function SnakeGame({ keyPressed, direction }) {
   const snakeBoard = useRef(null);
+  const pointsContext = usePoints()
   
   // Direction mapping function
   const mapToGameDirection = (input) => {
@@ -145,7 +147,7 @@ function SnakeGame({ keyPressed, direction }) {
       canvasParentRef.clientWidth,
       canvasParentRef.clientHeight
     ).parent(canvasParentRef);
-    snakeBoard.current = new GameEnvInstance(p5);
+    snakeBoard.current = new GameEnvInstance(p5, pointsContext);
     p5Instance = p5;
     p5.background(50);
   };

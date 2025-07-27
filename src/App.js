@@ -1,14 +1,17 @@
-import GameBoard from './components/GameBoard';
-import './app.css'
+import GameBoard from "./components/GameBoard";
+import "./app.css";
+import { PointsProvider } from "./state/points";
 
 function App() {
   return (
-    <div className="App">
-      <div className="snake-container">
-        <GameBoard />
-        {/* <SnakeGame /> */}
+    <PointsProvider>
+      <div className="App">
+        <div className="snake-container">
+          <GameBoard />
+          {/* <SnakeGame /> */}
+        </div>
       </div>
-    </div>
+    </PointsProvider>
   );
 }
 

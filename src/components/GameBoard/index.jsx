@@ -7,16 +7,17 @@ import logo from "../../images/logo.png";
 import SnakeCanvas from "../SnakeCanvas";
 import useKeyPress from "../../hooks/useKeyPress";
 import "./index.scss";
-import Button from "../button";
+import { usePoints } from "../../state/points";
+import { githubColors } from "../../common/constants";
 const { Text } = Typography;
 
-const githubColors = ["#033a16", "#196c2e", "#2ea043", "#56d364"];
 
 export default function GameBoard() {
   const [display, setDisplay] = useState("READY");
   const [lastPressed, setLastPressed] = useState("");
   const [direction, setDirection] = useState(null);
   const { keyPressed, isKeyPressed } = useKeyPress();
+  const { points, addPoints } = usePoints();
 
   // Handle direction changes
   const handleDirectionChange = (newDirection) => {
@@ -61,7 +62,6 @@ export default function GameBoard() {
   // Keyboard Controls Component
   const KeyboardControls = () => (
     <Flex className="keyboard-controls" vertical align="center" gap={8}>
-      <Text style={{ color: '#9198a1', fontSize: '12px' }}>Keyboard Controls</Text>
       <Flex vertical gap={4}>
         <Flex justify="center">
           <div className={`key-button ${isKeyPressed('ArrowUp') || isKeyPressed('W') || isKeyPressed('w') ? 'active' : ''}`}>
@@ -85,19 +85,13 @@ export default function GameBoard() {
 
   return (
     <Flex vertical justify="center" align="center" className="root-container">
-      <Flex className="logo">
-        <a href="https://himanshusb.in">
-          <img src={logo} width="50px" />
-        </a>
-      </Flex>
       <Flex
         align="center"
         justify="space-between"
         className="header-container w-full relative"
       >
-        <Flex>USB</Flex>
+        <Text style={{color:'white', fontWeight: '500'}}>{points} contributions in 2025</Text>
         <Flex>
-          <Text>133 points</Text>
           <Flex>
             <Switch
               checkedChildren={<SoundOutlined />}
@@ -116,7 +110,7 @@ export default function GameBoard() {
       <Flex className="footer">
         <Flex justify="space-between" align="center" className="footer-help">
           <Flex>
-            <Text style={{ color: '#9198a1'}}>Want to contribute.</Text>
+            <Text style={{ color: '#9198a1'}}>Want to contribute or give feedback?</Text>
           </Flex>
           <Flex
             className="contribution-container"
@@ -137,7 +131,6 @@ export default function GameBoard() {
           </Flex>
         </Flex>
         
-        {/* Add keyboard controls display */}
         <KeyboardControls />
         
         

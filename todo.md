@@ -26,7 +26,28 @@
 
 - Socials
 
-  - Github badge at top right corner
   - Blog integration
 
 - What is missing: Start/pause button, displaying keyboard press keys (&controls), socials (github badge, blog logo), current usb information, music turn on/off
+
+v0.2
+
+- We've pivoted. No more a usb snake game, cause frankly it might've taken more time.
+
+- Working canvas
+
+  - Add food sprite/image
+  - Sake Grows on eating food and increases speed
+  - Point system
+    - 10 Points added on eating food
+    - on reaching milestones (like 100 commits) something is rewarded like music of starwars, blinking background, news alerts up top, two snakes,
+    - On reaching plug, it changes the cable version
+  - (tentative) Changing cable, changes layout of the canvas, possibily adding obstacles
+  - (tentative) Adding AI players
+
+- Microinteractions
+
+  - Points being added gets an animation +5 getting added
+
+- Socials
+  - Blog integration
